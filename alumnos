@@ -1,0 +1,30 @@
+<?php
+$servername = "localhost";
+$username = "root"; // Cambia este valor si tu base de datos requiere un usuario diferente
+$password = ""; // Cambia este valor si tu base de datos requiere una contraseña
+$dbname = "sistema_alumnos";
+
+// Crea una conexión
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Verifica la conexión
+if ($conn->connect_error) {
+    die("Conexión fallida: " . $conn->connect_error);
+}
+?>
+<?php
+include 'db.php';
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $nombre = $_POST['nombre'];
+    $apellido = $_POST['apellido'];
+    $edad = $_POST['edad'];
+    $curso = $_POST['curso'];
+
+    $sql = "INSERT INTO alumnos (nombre, apellido, edad, curso) VALUES ('$nombre', '$apellido', '$edad', '$curso')";
+
+    if ($conn->query($sql) === TRUE) {
+        echo "Nuevo alumno agregado exitosamente";
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+    }
