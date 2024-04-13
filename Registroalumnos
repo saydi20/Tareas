@@ -1,0 +1,63 @@
+CREATE TABLE alumnos (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(50),
+    apellido VARCHAR(50),
+    edad INT,
+    curso VARCHAR(20)
+);
+
+<?php
+$servername = "localhost";
+$username = "root"; // Cambia este valor si tu base de datos requiere un usuario diferente
+$password = ""; // Cambia este valor si tu base de datos requiere una contraseña
+$dbname = "sistema_alumnos";
+
+// Crea una conexión
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Verifica la conexión
+if ($conn->connect_error) {
+    die("Conexión fallida: " . $conn->connect_error);
+}
+?>
+<?php
+include 'db.php';
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $nombre = $_POST['nombre'];
+    $apellido = $_POST['apellido'];
+    $edad = $_POST['edad'];
+    $curso = $_POST['curso'];
+
+    $sql = "INSERT INTO alumnos (nombre, apellido, edad, curso) VALUES ('$nombre', '$apellido', '$edad', '$curso')";
+
+    if ($conn->query($sql) === TRUE) {
+        echo "Nuevo alumno agregado exitosamente";
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+    }
+
+    $conn->close();
+}
+?>
+<?php
+include 'db.php';
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $id = $_POST['id'];
+    $nombre = $_POST['nombre'];
+    $apellido = $_POST['apellido'];
+    $edad = $_POST['edad'];
+    $curso = $_POST['curso'];
+
+    $sql = "UPDATE alumnos SET nombre='$nombre', apellido='$apellido', edad='$edad', curso='$curso' WHERE id='$id'";
+
+    if ($conn->query($sql) === TRUE) {
+        echo "Alumno actualizado exitosamente";
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+    }
+
+    $conn->close();
+}
+?>
